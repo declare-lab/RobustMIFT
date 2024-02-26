@@ -1,0 +1,46 @@
+ # Copyright (c) 2022, salesforce.com, inc.
+ # All rights reserved.
+ # SPDX-License-Identifier: BSD-3-Clause
+ # For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+
+# Bleu_4: 0.438
+# METEOR: 0.317
+# ROUGE_L: 0.620
+# CIDEr: 1.461
+# SPICE: 0.252
+
+model:
+  arch: blip2_vicuna_instruct
+  model_type: vicuna7b
+  use_grad_checkpoint: False
+
+datasets:
+  tvqa: # name of the dataset builder
+    vis_processor:
+        eval:
+          name: "blip_image_eval"
+          image_size: 224
+    text_processor:
+        eval:
+          name: "blip_question"
+
+run:
+  task: tvqa
+  batch_size_train: 8
+  batch_size_eval: 16
+  num_workers: 1
+
+  max_len: 30
+  min_len: 5
+  num_beams: 5
+
+  seed: 42
+  output_dir: "output/BLIP2/iblip_tvqa7b"
+
+  evaluate: True
+  test_splits: ["test"]
+
+  device: "cuda"
+  world_size: 4
+  dist_url: "env://"
+  distributed: True

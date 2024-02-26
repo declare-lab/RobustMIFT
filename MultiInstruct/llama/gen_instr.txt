@@ -1,0 +1,10 @@
+Use synonyms: Replace specific words or phrases with their synonyms to convey the same meaning for the input.
+Rearrange phrases for the input sentence: Reorganize sentences or phrases to improve readability or flow without changing the overall meaning.
+Simplify language: Use simpler vocabulary and sentence structures to make the text more accessible and easier to understand.
+Remove redundancies: Eliminate unnecessary words or phrases that do not add to the meaning of the text.
+Use active voice: Convert passive sentences to active ones to make the text more engaging and easier to read.
+Break up long sentences: Divide long sentences into shorter ones to improve readability and flow.
+Use bullet points or numbered lists: Organize information using bullet points or numbered lists to make it easier to read and understand.
+Replace jargon with common terms: Use plain language instead of technical jargon or industry-specific terms to make the text more accessible to a wider audience.
+Use inclusive language: Avoid using language that stereotypes or excludes certain groups of people. Instead, use language that is respectful and inclusive of all individuals.
+Check for consistency: Ensure that the text is consistent in terms of tone, style, and format throughout.

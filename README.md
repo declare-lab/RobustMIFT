@@ -1,4 +1,50 @@
 # InstrAug
 Official Implementation of the paper: [INSTRAUG: Automatic Instruction Augmentation for Multimodal Instruction Fine-tuning](https://arxiv.org/pdf/2402.14492.pdf)
 
-Code will come soon!
+## Introduction
+InstrAug is a framework for instruction augmentation. It can expand extant small instruction set to __up to 30x__ larger.
+The whole pipeline of InstrAug includes (as illustrated in the figure below):
+1. Meta-prompt Generation
+2. Augmented Instruction Generation and Rule-based Filtering
+    * Multi-temp sampling  ($\rm MIns+_{\rm MT}$)
+    * Iterative rephrasing ($\rm MIns+_{\rm Iter}$)
+3. Instruction-following Dataset Construction
+
+<p align="center">
+    <br>
+    <img src="assets/Framework.png"/>
+    <br>
+<p>
+
+We apply InstrAug to Multimodal Instruction Fine-tuning (MIFT) benchmarks and test on 12 downstream tasks from __MultiInstruct__ and __InstrutBLIP-Bench__ and the whole __MMMU benchmark__.
+The results show that the model's capability on instruction-augmented dataset (59K) is competative or even exceeds non-augmented larger dataset (564K).
+
+## Repo Hierarchy
+The file structure in this repository is as below, we only show important folders/files
+
+    .
+    ├── IBLIP                   # Implementation code on Instruct-BLIP
+    ├── OFA                     # Implementation code on OFA
+    ├── MultiInstruct           # Code of creating MINS+
+        ├──llama                # Code to generate augmented instructions using LLaMA
+        ├──mminstr_dataset      # folder to store mins and mins+ dataset 
+        └──instruction_data     # folder to store original and generated instruction set 
+    ├── LICENSE
+    └── README.md
+
+## Usage
+Please refer to the README.md under individual folder for more details.
+
+## Citation
+Please cite our paper if you find this work useful for your research and applications
+
+```
+@misc{han2024instraug,
+      title={INSTRAUG: Automatic Instruction Augmentation for Multimodal Instruction Fine-tuning}, 
+      author={Wei Han and Hui Chen and Soujanya Poria},
+      year={2024},
+      eprint={2402.14492},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
