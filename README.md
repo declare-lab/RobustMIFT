@@ -17,7 +17,7 @@ The whole pipeline of InstrAug includes (as illustrated in the figure below):
 <p>
 
 We apply InstrAug to Multimodal Instruction Fine-tuning (MIFT) benchmarks and test on 12 downstream tasks from __MultiInstruct__ and __InstrutBLIP-Bench__ and the whole __MMMU benchmark__.
-The results show that the model's capability on instruction-augmented dataset (59K) is competative or even exceeds non-augmented larger dataset (564K).
+The results show that the model's capability on instruction-augmented dataset (59K) is competitive to or even exceeds non-augmented but larger datasets (564K).
 
 ## Repo Hierarchy
 The file structure in this repository is as below, we only show important folders/files
