@@ -19,8 +19,7 @@ export MASTER_PORT=1081
 export RANK=0 
 
 data_dir=../../dataset
-# data=${data_dir}/bl_train1K/train.tsv,${data_dir}/val.tsv
-data=${data_dir}/augv22_10K/train.tsv,${data_dir}/val.tsv
+data=${data_dir}/MINS/train.tsv,${data_dir}/val.tsv
 # Note: If you have shuffled the data in advance, please uncomment the line below.
 
 # Note: If you have shuffled the data in advance, please uncomment the line below.
