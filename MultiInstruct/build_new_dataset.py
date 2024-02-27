@@ -29,8 +29,7 @@ META_REGION_TASK = {
 MISSING_TASK = {'VQA_absurd','region_area'}
 
 SIZE='1K'
-VERSION='171'
-# INSTR_SRC_FILE=f'./instruction_data/raw_instructions.tsv'
+VERSION='1'
 INSTR_SRC_FILE=f'./instruction_data/gen_instructions_v{VERSION}.tsv'
 TRG_ROOT=f'./mminstr_dataset/augv{VERSION}_{SIZE}'
 FILE_NAME='train'
@@ -140,6 +139,6 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--instr_id', type=int, default=-1, help='The id of the instruction to be selected')
-    parser.add_argument('--with_prob', action='store_true')
+    parser.add_argument('--with_prob', action='store_true', help='whether to use specified probability for sampling')
     args = parser.parse_args()
     main(args)

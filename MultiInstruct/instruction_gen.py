@@ -1,26 +1,19 @@
-# from email.mime import image
+import os
 import string
 import random
-import re
-import fire
+import re, fire
 import pandas as pd
+from argparse import ArgumentParser
 from tqdm import tqdm
 from typing import Optional
 from myllama.my_chat_completion import Generator
 
 random.seed(7)
 
-# RAW_FILE = './instruction_data/raw_instructions.tsv'
-# SRC_FILE = './instruction_data/gen_instructions_v11.tsv'  # for 1K 
-# SRC_FILE = './instruction_data/gen_instructions_temp0.6_nobug.tsv'  # for 1K v1.8+ 
-# SRC_FILE = './instruction_data/gen_instructions_v171.tsv'  # for 1K v1.8+ 
-SRC_FILE = './instruction_data/gen_instructions_temp_merged.tsv'  # for v2 10K
-# SRC_FILE = './instruction_data/multi_step/gen_instructions_temp0.6_iter1.tsv'  # for v3 10K
-# SRC_FILE = './instruction_data/multi_step/gen_instructions_temp0.6.tsv'
-# TRG_FILE = './instruction_data/multi_step/gen_instructions_temp0.6_iter1.tsv'
-# TRG_FILE = './instruction_data/gen_instructions_v173.tsv'
-TRG_FILE = './instruction_data/gen_instructions_v322.tsv'
-# TRG_FILE = './instruction_data/gen_instructions_temp0.6.tsv'
+RAW_FILE = './instruction_data/raw_instructions.tsv'
+GEN_TRG_FILE = './instruction_data/gen_instructions.tsv'
+SRC_FILE = './instruction_data/gen_instructions.tsv'  # for v2 10K
+TRG_FILE = './instruction_data/gen_instructions_filtered.tsv'
 # MT_TGT_FILE = './instruction_data/gen_instructions_temp{temperature}.tsv'
 
 TEST_TASKS = ['visual_spatial_reasoning', 'visual_text_extraction', 'text_vqa', 'medic_disaster_types', 'grounded_VQA','visual_nli','visual_spatial_reasoning','natural_language_visual_reasoning']
@@ -898,70 +891,51 @@ def generate_new_instruction_multi_temp(ckpt_dir: str, tokenizer_path: str, temp
     new_df['length'] = new_df['instructions'].map(len_map)
     new_df.to_csv(eval('f"{}"'.format(MT_TGT_FILE)), sep='\t', index=False)
 
-def generate_new_instruction_multi_step(ckpt_dir: str, tokenizer_path: str, temperature: float = 0.6, top_p: float = 0.9, max_seq_len: int = 512, max_batch_size: int = 4, max_gen_len: Optional[int] = None, instr_dir: str = None):
-    last_df = pd.read_csv(SRC_FILE, sep='\t')
+# def generate_new_instruction_multi_step(ckpt_dir: str, tokenizer_path: str, temperature: float = 0.6, top_p: float = 0.9, max_seq_len: int = 512, max_batch_size: int = 4, max_gen_len: Optional[int] = None, instr_dir: str = None):
+#     last_df = pd.read_csv(RAW_FILE, sep='\t')
     
-    for num_iter in range(1):
-        print(f'Start iteration {i}, temperature is {temperature}')
-        task_names = last_df['task_name'].unique()
+#     for num_iter in range(1):
+#         print(f'Start iteration {i}, temperature is {temperature}')
+#         task_names = last_df['task_name'].unique()
 
-        generator = Generator(
-            ckpt_dir=ckpt_dir, tokenizer_path=tokenizer_path, temperature=temperature, top_p=top_p, max_seq_len=max_seq_len, max_batch_size=max_batch_size, max_gen_len=max_gen_len, instr_dir=instr_dir)
+#         generator = Generator(
+#             ckpt_dir=ckpt_dir, tokenizer_path=tokenizer_path, temperature=temperature, top_p=top_p, max_seq_len=max_seq_len, max_batch_size=max_batch_size, max_gen_len=max_gen_len, instr_dir=instr_dir)
 
-        new_df = last_df.copy()
-        if num_iter == 0:
-            df = new_df[new_df['origin'] >= 0]
-            new_df['iteration'] = [0] * len(new_df)
-        else:
-            # use last iteration's results
-            df = new_df[new_df['iteration'] == i + 1]
+#         new_df = last_df.copy()
+#         if num_iter == 0:
+#             df = new_df[new_df['origin'] >= 0]
+#             new_df['iteration'] = [0] * len(new_df)
+#         else:
+#             # use last iteration's results
+#             df = new_df[new_df['iteration'] == i + 1]
             
-        for task_name in tqdm(task_names):
-            # pure format-string instructions, no need to augment
-            if task_name in ['open-domain_VQA', 'VQA'] or task_name in TEST_TASKS:
-                continue
-            subdf = df[df.task_name == task_name]
+#         for task_name in tqdm(task_names):
+#             # pure format-string instructions, no need to augment
+#             if task_name in ['open-domain_VQA', 'VQA'] or task_name in TEST_TASKS:
+#                 continue
+#             subdf = df[df.task_name == task_name]
             
-            for i, row in subdf.iterrows():       
-                raw_inst = row['instructions']
+#             for i, row in subdf.iterrows():       
+#                 raw_inst = row['instructions']
                 
-                # instructions are composed of only placeholders, no need to proceed
-                if len(re.replace('{.+?}', '', raw_inst).strip()) == 0:
-                    continue
+#                 # instructions are composed of only placeholders, no need to proceed
+#                 if len(re.replace('{.+?}', '', raw_inst).strip()) == 0:
+#                     continue
                 
-                gen_insts = generator.generate(raw_inst)
-                for gen_inst in gen_insts:
-                    new_row = dict(task_name=task_name, instructions=gen_inst, origin=i)
-                    new_df.loc[len(new_df)] = new_row
+#                 gen_insts = generator.generate(raw_inst)
+#                 for gen_inst in gen_insts:
+#                     new_row = dict(task_name=task_name, instructions=gen_inst, origin=i)
+#                     new_df.loc[len(new_df)] = new_row
 
-                    print(len(gen_insts))
-            print(f'Gen List length is {len(new_df)}')
+#                     print(len(gen_insts))
+#             print(f'Gen List length is {len(new_df)}')
 
-        len_map = {instr: len(instr.split()) for instr in new_df['instructions']}
-        new_df['length'] = new_df['instructions'].map(len_map)
-        new_df.to_csv(f'./instruction_data/multistep/gen_instructions_temp{temperature}_iter{i+1}.tsv', sep='\t', index=False)
-        last_df = new_df
+#         len_map = {instr: len(instr.split()) for instr in new_df['instructions']}
+#         new_df['length'] = new_df['instructions'].map(len_map)
+#         new_df.to_csv(f'./instruction_data/multistep/gen_instructions_temp{temperature}_iter{i+1}.tsv', sep='\t', index=False)
+#         last_df = new_df
 
 def filter_instructions():
-    # 3345 -> 1989 for v1
-    # 3345 -> 2045 for v1.6
-    # 3071 -> 1898 for v1.7.1
-    # v2
-    # 37927 -> 18024 for v2
-    # multi-temp v2
-    # 37927 -> 19270 -> 9827 (9491) for v2.1.1
-    # 34177 -> 17980 -> 9379 (9013) for v2.1.2
-    # 34177 -> 17980 -> 9013 for v2.2.1
-    # 34177 -> 16290 -> 8155 (7789) for v2.3
-    # multi-iter v3
-    # 24186 -> 9957 -> 9949 for v3.1.1
-    # 24186 -> 9026 -> 8759 (8390) for v3.1.2
-    # 24186 -> 7940 -> 7597 (7228) for v3.1.3
-    # 24186 -> 8229 -> 7849 (7480) for v3.1.4
-    # 24186 -> 9609 v3.2
-    # 24186 -> 
-    # 24186 -> 8843 v 3.2.2
-    # raw_df = pd.read_csv('./instruction_data/raw_instructions.tsv', sep='\t')
     df = pd.read_csv(SRC_FILE, sep='\t')
 
     print(f'Start filtering... Input length is {len(df)}')
@@ -981,7 +955,7 @@ def filter_instructions():
             oriorigin = gen_df.loc[origin, 'origin']  # origin's origin
 
         # filter conditions
-        # condition 1: length does not exceeds twice of original length
+        # rule 1: length does not exceeds twice of original length
         if origin < len(raw_df):
             origin_inst = raw_df.loc[origin, 'instructions']
             origin_len = raw_df.loc[origin, 'length']
@@ -989,14 +963,15 @@ def filter_instructions():
             origin_inst = df.loc[oriorigin, 'instructions']
             origin_len = df.loc[origin, 'length']
             
-        
-        is_preserved = (0.5 * origin_len < length < 1.5 * origin_len)
-        # condition 2: formatted strings are (sorted) equal
+        # rule 2: filter too short/long generations to circumvent hallu
+        is_preserved = (0.0 * origin_len < length < 2.0 * origin_len)
+
+        # rule 3: formatted strings are (sorted) equal
         is_preserved &= (sorted(re.findall('{.*?}', inst)) == sorted(re.findall('{.*?}', origin_inst)))   # no order enforcement
         
-        # condition 3: the sentence does not have "'d, 'll"
-        is_preserved &= (len(re.findall("('d|'ll)", inst)) == 0)
-        is_preserved_list.append(is_preserved)
+        # rule 4: the sentence does not have "'d, 'll"
+        # is_preserved &= (len(re.findall("('d|'ll)", inst)) == 0)
+        # is_preserved_list.append(is_preserved)
 
     if not preserve_origin:
         pass
@@ -1005,7 +980,7 @@ def filter_instructions():
     df['is_preserved'] = is_preserved_list
     num_preserved = sum(is_preserved_list)
     print(f'End filtering... Result length is {num_preserved}')
-    df.to_csv(TRG_FILE, sep='\t', index=False)
+    df.to_csv(GEN_TRG_FILE, sep='\t', index=False)
 
 def build_with_new_instructions(data_frame, task, text=None, options=None, region=None, context=None, question=None, explanation=None, response=None, premise=None, hypothesis=None, answer=None, meta_data=None, target=None, use_natural=False, instruction_id=-1):
     image_token = "image" # this show only appear before the output token
@@ -1086,10 +1061,6 @@ def build_with_new_instructions(data_frame, task, text=None, options=None, regio
     if has_enter:
         instruction = re.sub('[new_line]', '\n', stripped_finst)
     return instruction, target
-
-# FIXME: Move to build_new_dataset.py
-RAW_LOGIT = 0.5
-GEN_LOGIT = 0.5
 
 def build_with_new_instructions_sample(data_frame, task, text=None, options=None, region=None, context=None, question=None, explanation=None, response=None, premise=None, hypothesis=None, answer=None, meta_data=None, target=None, use_natural=False, instruction_id=-1):
     image_token = "image" # this show only appear before the output token
@@ -1185,10 +1156,11 @@ def build_with_new_instructions_sample(data_frame, task, text=None, options=None
     return instruction, target
     
 if __name__ == '__main__':
-    # save_raw_instruction()
+    save_raw_instruction()
 
     # step 1: Generate new instruction
-    # fire.Fire(generate_new_instruction)
+    fire.Fire(generate_new_instruction)
+    # For multi-temp generation
     # fire.Fire(generate_new_instruction_multi_step)
 
     # step 2: Use heuristics to filter generated instruction
