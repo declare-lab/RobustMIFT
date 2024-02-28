@@ -8,7 +8,7 @@ Use the provided environment configuration file to create the environment (need 
 conda env create -f env.yaml
 conda create ofa
 ```
-Create (or soft link) the dataset and checkpoint folder to save MINS dataset and saved model.
+Create (or soft link) the dataset and checkpoint folder to save MINS dataset and checkpoint files.
 ```
 mkdir dataset
 mkdir checkpoints
@@ -16,7 +16,7 @@ mkdir checkpoints
 Download pretrained OFA model to `./checkpoints` from [OFA-ModelCard](README_OFA.md#model-card).
 
 ## Training
-You can directly start training using the default script, make sure that you have pretrained models and dataset prepared and the directories in the script are correct.
+You can directly start training using the default script. Please make sure that you have pretrained models and dataset prepared and the directories in the script are correct before you start training.
 ```
 export CUDA_VISIBLE_DEVICES='0,1,2,3'; bash run_scripts/instr_train/train_instr_distributed.sh
 ```
