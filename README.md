@@ -25,9 +25,9 @@ The file structure in this repository is as below, we only show important folder
     .
     ├── IBLIP                   # Implementation code on Instruct-BLIP
     ├── OFA                     # Implementation code on OFA
-    ├── MultiInstruct           # Code of creating MINS+
+    ├── MultiInstruct           # Code to create MINS+
         ├──llama                # Code to generate augmented instructions using LLaMA
-        ├──mminstr_dataset      # folder to store mins and mins+ dataset 
+        ├──mminstr_dataset      # folder to store MINS and MINS+ dataset 
         └──instruction_data     # folder to store original and generated instruction set 
     ├── LICENSE
     └── README.md
