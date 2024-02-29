@@ -38,7 +38,7 @@ Please refer to the README.md under individual folder for more details.
 ## Citation
 Please cite our paper if you find this work useful for your research and applications
 
-```
+```bibtex
 @misc{han2024instraug,
       title={INSTRAUG: Automatic Instruction Augmentation for Multimodal Instruction Fine-tuning}, 
       author={Wei Han and Hui Chen and Soujanya Poria},

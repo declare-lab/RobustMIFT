@@ -11,8 +11,6 @@ datasets:
     build_info:
       annotations:
         train:
-          storage: /home/henry/OFA-MMInstr/MultiInstruct/mminstr_dataset/bl_train1K/train.tsv
+          storage: /data/MultiInstruct/train.tsv
 
-      vis_root: /data/henry/MultiInstruct
-      images:
-        storage: /home/henry/OFA-MMInstr/MultiInstruct
+      vis_root: /data/MultiInstruct

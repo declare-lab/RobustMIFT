@@ -1,1 +1,1 @@
-python -m torch.distributed.run --nproc_per_node=4 train.py --cfg-path lavis/projects/iblip/train/instr_tuning.yaml
+python -m torch.distributed.run --nproc_per_node=2 train.py --cfg-path lavis/projects/iblip/train/instr_tuning.yaml
