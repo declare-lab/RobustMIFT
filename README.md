@@ -35,6 +35,28 @@ The file structure in this repository is as below, we only show important folder
 ## Usage
 Please refer to the README.md under individual folder for more details.
 
+## Results
+### 1. Results on MultiInstruct
+<p align="center">
+    <br>
+    <img src="assets/res_mins.png"/>
+    <br>
+<p>
+
+### 2. Results on IBLIP-Bench
+<p align="center">
+    <br>
+    <img src="assets/res_iblip.png"/>
+    <br>
+<p>
+
+### 3. Results on MMMU
+<p align="center">
+    <br>
+    <img src="assets/res_mmmu.png"/>
+    <br>
+<p>
+
 ## Citation
 Please cite our paper if you find this work useful for your research and applications
 
