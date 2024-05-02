@@ -11,23 +11,14 @@ conda activate ofa
 <<<<<<< HEAD
 Create (or soft link) the dataset and checkpoint folder to save MINS dataset and saved model.
 ```bash
-=======
-Create (or soft link) the dataset and checkpoint folder to save MINS dataset and checkpoint files.
-```
->>>>>>> 155badb34bac3d830e02596df87f9f1cd6717a0d
 mkdir dataset
 mkdir checkpoints
 ```
 Download pretrained OFA model to `./checkpoints` from [OFA-ModelCard](README_OFA.md#model-card).
 
 ## Training
-<<<<<<< HEAD
 You can directly start training using the default script, make sure that you have pretrained models and dataset prepared and the directories in the script are correct.
 ```bash
-=======
-You can directly start training using the default script. Please make sure that you have pretrained models and dataset prepared and the directories in the script are correct before you start training.
-```
->>>>>>> 155badb34bac3d830e02596df87f9f1cd6717a0d
 export CUDA_VISIBLE_DEVICES='0,1,2,3'; bash run_scripts/instr_train/train_instr_distributed.sh
 ```
 Here we assume you have a server of 4 GPUs, and use all of them for training.
