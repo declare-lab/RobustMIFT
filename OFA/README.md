@@ -8,7 +8,6 @@ Use the provided environment configuration file to create the environment (need 
 conda env create -f env.yaml
 conda activate ofa
 ```
-<<<<<<< HEAD
 Create (or soft link) the dataset and checkpoint folder to save MINS dataset and saved model.
 ```bash
 mkdir dataset
