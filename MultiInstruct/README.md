@@ -1,5 +1,5 @@
 # InstrAug
-This folder contains the code for the entire _InstrAug_ pipeline. We use LLaMA2-Chat-13B to generate augmented instructions from origina instruction.
+This folder contains the code for the entire _InstrAug_ pipeline, which includes generation, post-processing (filtering) and dataset reconstruction. During generation stage, we "ask" LLaMA2-Chat-13B to generate augmented instructions from original ones.
 
 ## Set up
 1. Create the environment to run llama using the provided configuration file.
