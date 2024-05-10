@@ -1,4 +1,4 @@
-# InstrAug (Make MLLMs more robust to instruction styles)
+# Robust Instruction Tuning on LLMs
 Official Implementation of the paper: [InstrAug: Automatic Instruction Augmentation for Multimodal Instruction Fine-tuning](https://arxiv.org/pdf/2402.14492.pdf)
 
 ## Introduction
