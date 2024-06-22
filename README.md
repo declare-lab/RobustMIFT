@@ -61,12 +61,11 @@ Please refer to the README.md under individual folder for more details.
 Please cite our paper if you find this work useful for your research and applications
 
 ```bibtex
-@misc{han2024instraug,
-      title={INSTRAUG: Automatic Instruction Augmentation for Multimodal Instruction Fine-tuning}, 
+@misc{han2024robust,
+      title={Towards Robust Instruction Tuning on Multimodal Large Language Models}, 
       author={Wei Han and Hui Chen and Soujanya Poria},
       year={2024},
       eprint={2402.14492},
       archivePrefix={arXiv},
-      primaryClass={cs.CL}
 }
 ```
